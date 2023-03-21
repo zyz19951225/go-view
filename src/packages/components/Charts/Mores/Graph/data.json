@@ -4,44 +4,30 @@
   },
   "series":
   {
-    "type": "graph",
-    "layout": "none",
-    "symbolSize": 50,
-    "roam": true,
-    "label": {
-      "show": true
-    },
-    "edgeSymbol": [
-      "circle",
-      "arrow"
-    ],
-    "edgeSymbolSize": [
-      4,
-      10
-    ],
-    "edgeLabel": {
-      "fontSize": 20
-    },
     "data": [
       {
         "name": "Node 1",
         "x": 300,
-        "y": 300
+        "y": 300,
+        "category":0
       },
       {
         "name": "Node 2",
         "x": 800,
-        "y": 300
+        "y": 300,
+        "category":1
       },
       {
         "name": "Node 3",
         "x": 550,
-        "y": 100
+        "y": 100,
+        "category":2
       },
       {
         "name": "Node 4",
         "x": 550,
-        "y": 500
+        "y": 500,
+        "category":3
       }
     ],
     "links": [
@@ -85,6 +71,17 @@
       {
         "source": "Node 1",
         "target": "Node 4"
+      }
+    ],
+    "categories":[
+      {
+        "name":"Node 1"
+      },{
+        "name":"Node 2"
+      }, {
+        "name":"Node 3"
+      },{
+        "name":"Node 4"
       }
     ],
     "lineStyle": {

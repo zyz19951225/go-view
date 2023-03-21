@@ -14,26 +14,25 @@ export const GraphShapeEnumList = [
 
 export const option = {
   title: {
+    show:true,
     text: "Basic Graph"
   },
   tooltip: {},
   dataset: { ...dataJson },
+  legend:{
+   show:true
+  },
   animationDurationUpdate: 1500,
   animationEasingUpdate: 'quinticInOut',
   graph: {
     shape: 'polygon',
-    radius: ['0%', '60%'],
-    center: ['50%', '55%'],
-    splitArea: { show: true },
-    splitLine: { show: true },
-    axisName: { show: true, color: '#eee', fontSize: 12 },
-    axisLine: { show: true },
-    axisTick: { show: true },
   },
   series: [
     {
+      center:["100%","100%"],
       type: 'graph',
       layout: 'none',
+      zoom:1,
       symbolSize: 50,
       roam: true,
       label: {
@@ -47,6 +46,7 @@ export const option = {
       data: dataJson.series.data,
       // links: [],
       links: dataJson.series.links,
+      categories:dataJson.series.categories,
       lineStyle: dataJson.series.lineStyle
     }
   ]

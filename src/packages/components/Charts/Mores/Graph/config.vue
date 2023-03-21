@@ -2,8 +2,39 @@
   <div>
     <!-- Echarts 全局设置 -->
     <global-setting :optionData="optionData"></global-setting>
-    <CollapseItem name="关系图" :expanded="true">
-      <SettingItemBox name="样式">
+    <SettingItemBox name="偏移">
+      <setting-item :name="`X 轴值：${graphProp.center[0]}%`">
+        <n-slider
+            v-model:value="graphProp.center[0]"
+            :min="0"
+            :max="200"
+            :format-tooltip="sliderFormatTooltip"
+            @update:value="updateCenter0"
+        ></n-slider>
+      </setting-item>
+      <setting-item :name="`Y 轴值：${graphProp.center[1]}%`">
+        <n-slider
+            v-model:value="graphProp.center[1]"
+            :min="0"
+            :max="200"
+            :format-tooltip="sliderFormatTooltip"
+            @update:value="updateCenter1"
+        ></n-slider>
+      </setting-item>
+    </SettingItemBox>
+    <SettingItemBox name="缩放">
+      <setting-item :name="`缩放大小：${graphProp.zoom}%`">
+        <n-slider
+            v-model:value="graphProp.zoom"
+            :min="1"
+            :max="200"
+            :format-tooltip="sliderFormatTooltip"
+            @update:value="updateZoom"
+        ></n-slider>
+      </setting-item>
+    </SettingItemBox>
+<!--    <CollapseItem name="关系图" :expanded="true">-->
+<!--      <SettingItemBox name="样式">-->
 <!--        <SettingItem>-->
 <!--          <n-checkbox v-model:checked="graphConfig.splitArea.show">背景</n-checkbox>-->
 <!--        </SettingItem>-->
@@ -18,71 +49,9 @@
 <!--            placeholder="选择形状"-->
 <!--          />-->
 <!--        </SettingItem>-->
-      </SettingItemBox>
-
-<!--      <SettingItemBox name="坐标轴">-->
-<!--        <SettingItem>-->
-<!--          <n-checkbox v-model:checked="graphConfig.axisLine.show">轴线</n-checkbox>-->
-<!--        </SettingItem>-->
-<!--        <SettingItem>-->
-<!--          <n-checkbox v-model:checked="graphConfig.axisTick.show">刻度</n-checkbox>-->
-<!--        </SettingItem>-->
 <!--      </SettingItemBox>-->
 
-<!--      <SettingItemBox name="范围">-->
-<!--        <setting-item :name="`最小值：${graphProp.radius[0]}%`">-->
-<!--          <n-slider-->
-<!--            v-model:value="graphProp.radius[0]"-->
-<!--            :min="0"-->
-<!--            :max="100"-->
-<!--            :format-tooltip="sliderFormatTooltip"-->
-<!--            @update:value="updateRadius0"-->
-<!--          ></n-slider>-->
-<!--        </setting-item>-->
-<!--        <setting-item :name="`最大值：${graphProp.radius[1]}%`">-->
-<!--          <n-slider-->
-<!--            v-model:value="graphProp.radius[1]"-->
-<!--            :min="0"-->
-<!--            :max="100"-->
-<!--            :format-tooltip="sliderFormatTooltip"-->
-<!--            @update:value="updateRadius1"-->
-<!--          ></n-slider>-->
-<!--        </setting-item>-->
-<!--      </SettingItemBox>-->
-
-<!--      <SettingItemBox name="偏移">-->
-<!--        <setting-item :name="`X 轴值：${graphProp.center[0]}%`">-->
-<!--          <n-slider-->
-<!--            v-model:value="graphProp.center[0]"-->
-<!--            :min="0"-->
-<!--            :max="100"-->
-<!--            :format-tooltip="sliderFormatTooltip"-->
-<!--            @update:value="updateCenter0"-->
-<!--          ></n-slider>-->
-<!--        </setting-item>-->
-<!--        <setting-item :name="`Y 轴值：${graphProp.center[1]}%`">-->
-<!--          <n-slider-->
-<!--            v-model:value="graphProp.center[1]"-->
-<!--            :min="0"-->
-<!--            :max="100"-->
-<!--            :format-tooltip="sliderFormatTooltip"-->
-<!--            @update:value="updateCenter1"-->
-<!--          ></n-slider>-->
-<!--        </setting-item>-->
-<!--      </SettingItemBox>-->
-
-<!--      <SettingItemBox name="指示器">-->
-<!--        <SettingItem name="颜色">-->
-<!--          <n-color-picker size="small" :modes="['hex']" v-model:value="graphConfig.axisName.color"></n-color-picker>-->
-<!--        </SettingItem>-->
-<!--        <SettingItem name="大小">-->
-<!--          <n-input-number v-model:value="graphConfig.axisName.fontSize" size="small" :min="9"></n-input-number>-->
-<!--        </SettingItem>-->
-<!--        <SettingItem>-->
-<!--          <n-checkbox v-model:checked="graphConfig.axisName.show">文字标签</n-checkbox>-->
-<!--        </SettingItem>-->
-<!--      </SettingItemBox>-->
-    </CollapseItem>
+<!--    </CollapseItem>-->
   </div>
 </template>
 
@@ -105,25 +74,21 @@ const graphConfig = computed<typeof option.graph>(() => {
 
 const graphProp = reactive({
   radius: [0, 60],
-  center: [50, 50]
+  center: [100, 100],
+  zoom:100
 })
 
 // 更新处理
-const updateRadius0 = (value: number) => {
-  props.optionData.graph.radius[0] = `${value}%`
-}
-
-const updateRadius1 = (value: number) => {
-  props.optionData.graph.radius[1] = `${value}%`
-}
-
-// 更新处理
 const updateCenter0 = (value: number) => {
-  props.optionData.graph.center[0] = `${value}%`
+  props.optionData.series[0].center[0] = `${value}%`
 }
 
 const updateCenter1 = (value: number) => {
-  props.optionData.graph.center[1] = `${value}%`
+  props.optionData.series[0].center[1] = `${value}%`
+}
+
+const updateZoom = (value: number) => {
+  props.optionData.series[0].zoom =  value/100
 }
 
 // 百分比格式化 percent
