@@ -6,16 +6,19 @@ import dataJson from './data.json'
 
 export const includes = ['legend']
 
-// 雷达形状
-export const GraphShapeEnumList = [
-  { label: '多边形', value: 'polygon' },
-  { label: '圆形', value: 'circle' }
+// 关系图标签位置
+export const GraphLabelPositionEnumList = [
+  { label: '顶部', value: 'top' },
+  { label: '底部', value: 'bottom' },
+  { label: '左', value: 'left' },
+  { label: '右', value: 'right' },
+  { label: '内部', value: 'inside' },
 ]
 
 export const option = {
   title: {
     show:true,
-    text: "Basic Graph"
+    text: dataJson.title.text
   },
   tooltip: {},
   dataset: { ...dataJson },
@@ -36,7 +39,8 @@ export const option = {
       symbolSize: 50,
       roam: true,
       label: {
-        show: true
+        show: true,
+        position:"inside"
       },
       edgeSymbol: ['circle', 'arrow'],
       edgeSymbolSize: [4, 10],

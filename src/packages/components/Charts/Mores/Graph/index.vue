@@ -47,13 +47,14 @@ const option = computed(() => {
 })
 
 const dataSetHandle = (dataset: typeof dataJson) => {
-  if (dataset.seriesData) {
-    props.chartConfig.option.series[0].data = dataset.seriesData
+  if (dataset.series || dataset.title) {
+    props.chartConfig.option.title= dataset.title
+    props.chartConfig.option.series[0].data = dataset.series.data
+    props.chartConfig.option.series[0].links = dataset.series.links
+    props.chartConfig.option.series[0].categories = dataset.series.categories
+    props.chartConfig.option.series[0].lineStyle = dataset.series.lineStyle
     // @ts-ignore
-    props.chartConfig.option.legend.data = dataset.seriesData.map((i: { name: string }) => i.name)
-  }
-  if (dataset.radarIndicator) {
-    props.chartConfig.option.radar.indicator = dataset.radarIndicator
+  //  props.chartConfig.option.legend.data = dataset.seriesData.map((i: { name: string }) => i.name)
   }
   if (vChartRef.value && isPreview()) {
     setOption(vChartRef.value, props.chartConfig.option)

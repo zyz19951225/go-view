@@ -2,6 +2,21 @@
   <div>
     <!-- Echarts 全局设置 -->
     <global-setting :optionData="optionData"></global-setting>
+    <CollapseItem name="关系图" :expanded="true">
+        <template #header>
+          <n-switch v-model:value="label.show" size="small"></n-switch>
+        </template>
+        <setting-item-box name="标签位置">
+          <setting-item>
+            <n-select
+                v-model:value="optionData.series[0].label.position"
+                size="small"
+                :options="GraphLabelPositionEnumList"
+                placeholder="选择形状"
+            />
+          </setting-item>
+        </setting-item-box>
+
     <SettingItemBox name="偏移">
       <setting-item :name="`X 轴值：${graphProp.center[0]}%`">
         <n-slider
@@ -33,6 +48,7 @@
         ></n-slider>
       </setting-item>
     </SettingItemBox>
+    </CollapseItem>
 <!--    <CollapseItem name="关系图" :expanded="true">-->
 <!--      <SettingItemBox name="样式">-->
 <!--        <SettingItem>-->
@@ -58,7 +74,7 @@
 <script setup lang="ts">
 import { PropType, computed, reactive } from 'vue'
 import { GlobalSetting, CollapseItem, SettingItemBox, SettingItem } from '@/components/Pages/ChartItemSetting'
-import { option, GraphShapeEnumList } from './config'
+import { option, GraphLabelPositionEnumList } from './config'
 import { GlobalThemeJsonType } from '@/settings/chartThemes/index'
 
 const props = defineProps({
@@ -72,10 +88,15 @@ const graphConfig = computed<typeof option.graph>(() => {
   return props.optionData.graph
 })
 
+
 const graphProp = reactive({
   radius: [0, 60],
   center: [100, 100],
-  zoom:100
+  zoom:100,
+})
+
+const label = computed(() => {
+  return props.optionData.series[0].label
 })
 
 // 更新处理
