@@ -52,7 +52,6 @@ const dataSetHandle = (dataset: typeof dataJson) => {
     props.chartConfig.option.series[0].data = dataset.series.data
     props.chartConfig.option.series[0].links = dataset.series.links
     props.chartConfig.option.series[0].categories = dataset.series.categories
-    props.chartConfig.option.series[0].lineStyle = dataset.series.lineStyle
     // @ts-ignore
   //  props.chartConfig.option.legend.data = dataset.seriesData.map((i: { name: string }) => i.name)
   }

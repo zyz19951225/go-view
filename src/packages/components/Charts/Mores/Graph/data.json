@@ -83,12 +83,7 @@
       },{
         "name":"Node 4"
       }
-    ],
-    "lineStyle": {
-      "opacity": 0.9,
-      "width": 2,
-      "curveness": 0
-    }
+    ]
   }
 
 }

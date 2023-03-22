@@ -2,7 +2,69 @@
   <div>
     <!-- Echarts 全局设置 -->
     <global-setting :optionData="optionData"></global-setting>
-    <CollapseItem name="关系图" :expanded="true">
+    <CollapseItem name="节点" :expanded="false">
+        <setting-item-box name="节点形状">
+          <setting-item>
+            <n-select
+                v-model:value="optionData.series[0].symbol"
+                size="small"
+                :options="GraphShapePositionEnumList"
+                placeholder="选择形状"
+            />
+          </setting-item>
+        </setting-item-box>
+      <SettingItemBox name="节点大小">
+        <setting-item :name="`节点大小：${optionData.series[0].symbolSize}`">
+          <n-slider
+              v-model:value="optionData.series[0].symbolSize"
+              :min="0"
+              :max="100"
+              :format-tooltip="sliderFormatTooltip"
+              @update:value="updateSymbolSize"
+          ></n-slider>
+        </setting-item>
+      </SettingItemBox>
+    </CollapseItem>
+    <CollapseItem name="边" :expanded="false">
+      <setting-item-box name="类型">
+          <setting-item>
+            <n-select
+                v-model:value="optionData.series[0].lineStyle.type"
+                size="small"
+                :options="GraphLineTypePositionEnumList"
+                placeholder="选择形状"
+            />
+          </setting-item>
+        </setting-item-box>
+      <setting-item-box name="线条颜色">
+        <setting-item>
+          <n-color-picker size="small" v-model:value="optionData.series[0].lineStyle.color"></n-color-picker>
+        </setting-item>
+      </setting-item-box>
+      <SettingItemBox name="粗细">
+        <setting-item :name="`节点大小：${optionData.series[0].lineStyle.width}`">
+          <n-slider
+              v-model:value="optionData.series[0].lineStyle.width"
+              :min="0"
+              :max="100"
+              :format-tooltip="sliderFormatTooltip"
+              @update:value="updateLineWidth"
+          ></n-slider>
+        </setting-item>
+      </SettingItemBox>
+      <SettingItemBox name="曲度">
+        <setting-item :name="`曲度：${graphProp.curveness}%`">
+          <n-slider
+              v-model:value="graphProp.curveness"
+              :min="0"
+              :max="100"
+              :format-tooltip="sliderFormatTooltip"
+              @update:value="updateLineCurveness"
+          ></n-slider>
+        </setting-item>
+      </SettingItemBox>
+    </CollapseItem>
+    <CollapseItem name="标签" :expanded="false">
         <template #header>
           <n-switch v-model:value="label.show" size="small"></n-switch>
         </template>
@@ -16,65 +78,60 @@
             />
           </setting-item>
         </setting-item-box>
-
-    <SettingItemBox name="偏移">
-      <setting-item :name="`X 轴值：${graphProp.center[0]}%`">
-        <n-slider
-            v-model:value="graphProp.center[0]"
-            :min="0"
-            :max="200"
-            :format-tooltip="sliderFormatTooltip"
-            @update:value="updateCenter0"
-        ></n-slider>
-      </setting-item>
-      <setting-item :name="`Y 轴值：${graphProp.center[1]}%`">
-        <n-slider
-            v-model:value="graphProp.center[1]"
-            :min="0"
-            :max="200"
-            :format-tooltip="sliderFormatTooltip"
-            @update:value="updateCenter1"
-        ></n-slider>
-      </setting-item>
-    </SettingItemBox>
-    <SettingItemBox name="缩放">
-      <setting-item :name="`缩放大小：${graphProp.zoom}%`">
-        <n-slider
-            v-model:value="graphProp.zoom"
-            :min="1"
-            :max="200"
-            :format-tooltip="sliderFormatTooltip"
-            @update:value="updateZoom"
-        ></n-slider>
-      </setting-item>
-    </SettingItemBox>
     </CollapseItem>
-<!--    <CollapseItem name="关系图" :expanded="true">-->
-<!--      <SettingItemBox name="样式">-->
-<!--        <SettingItem>-->
-<!--          <n-checkbox v-model:checked="graphConfig.splitArea.show">背景</n-checkbox>-->
-<!--        </SettingItem>-->
-<!--        <SettingItem>-->
-<!--          <n-checkbox v-model:checked="graphConfig.splitLine.show">分割线</n-checkbox>-->
-<!--        </SettingItem>-->
-<!--        <SettingItem name="关系图布局">-->
-<!--          <n-select-->
-<!--            v-model:value="graphConfig.shape"-->
-<!--            size="small"-->
-<!--            :options="GraphShapeEnumList"-->
-<!--            placeholder="选择形状"-->
-<!--          />-->
-<!--        </SettingItem>-->
-<!--      </SettingItemBox>-->
+    <CollapseItem name="关系图" :expanded="true">
+      <SettingItemBox name="偏移">
+        <setting-item :name="`X 轴值：${graphProp.center[0]}%`">
+          <n-slider
+              v-model:value="graphProp.center[0]"
+              :min="0"
+              :max="200"
+              :format-tooltip="sliderFormatTooltip"
+              @update:value="updateCenter0"
+          ></n-slider>
+        </setting-item>
+        <setting-item :name="`Y 轴值：${graphProp.center[1]}%`">
+          <n-slider
+              v-model:value="graphProp.center[1]"
+              :min="0"
+              :max="200"
+              :format-tooltip="sliderFormatTooltip"
+              @update:value="updateCenter1"
+          ></n-slider>
+        </setting-item>
+      </SettingItemBox>
+      <SettingItemBox name="缩放">
+        <setting-item :name="`缩放大小：${graphProp.zoom}%`">
+          <n-slider
+              v-model:value="graphProp.zoom"
+              :min="1"
+              :max="200"
+              :format-tooltip="sliderFormatTooltip"
+              @update:value="updateZoom"
+          ></n-slider>
+        </setting-item>
+      </SettingItemBox>
+      <setting-item-box name="聚焦方式">
+        <setting-item >
+            <setting-item>
+              <n-select
+                  v-model:value="optionData.series[0].emphasis.focus"
+                  size="small"
+                  :options="GraphFocusPositionEnumList"
+                  placeholder="选择形状"
+              />
+            </setting-item>
+        </setting-item>
+      </setting-item-box>
+    </CollapseItem>
 
-<!--    </CollapseItem>-->
   </div>
 </template>
 
 <script setup lang="ts">
 import { PropType, computed, reactive } from 'vue'
 import { GlobalSetting, CollapseItem, SettingItemBox, SettingItem } from '@/components/Pages/ChartItemSetting'
-import { option, GraphLabelPositionEnumList } from './config'
+import { option, GraphLabelPositionEnumList,GraphShapePositionEnumList,GraphFocusPositionEnumList,GraphLineTypePositionEnumList } from './config'
 import { GlobalThemeJsonType } from '@/settings/chartThemes/index'
 
 const props = defineProps({
@@ -93,6 +150,7 @@ const graphProp = reactive({
   radius: [0, 60],
   center: [100, 100],
   zoom:100,
+  curveness:0
 })
 
 const label = computed(() => {
@@ -112,6 +170,18 @@ const updateZoom = (value: number) => {
   props.optionData.series[0].zoom =  value/100
 }
 
+const updateSymbolSize = (value: number) => {
+  props.optionData.series[0].symbolSize = value
+}
+
+const updateLineWidth = (value: number) => {
+  props.optionData.series[0].lineStyle.width = value
+}
+
+const updateLineCurveness = (value: number) => {
+  console.log(value)
+  props.optionData.series[0].lineStyle.curveness = value/100
+}
 // 百分比格式化 percent
 const sliderFormatTooltip = (v: number) => {
   return `${v}%`

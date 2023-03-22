@@ -15,6 +15,33 @@ export const GraphLabelPositionEnumList = [
   { label: '内部', value: 'inside' },
 ]
 
+export const GraphFocusPositionEnumList = [
+  { label: '默认', value: 'none' },
+  { label: 'self', value: 'self' },
+  { label: 'series', value: 'series' },
+  { label: 'adjacency', value: 'adjacency' },
+]
+
+
+export const GraphLineTypePositionEnumList = [
+  { label: '实线', value: 'solid' },
+  { label: '虚线', value: 'dashed' },
+  { label: '点', value: 'dotted' },
+]
+
+export const GraphShapePositionEnumList = [
+  { label: '圆', value: 'circle' },
+  { label: '矩形', value: 'rect' },
+  { label: '圆角矩形', value: 'roundRect' },
+  { label: '三角形', value: 'triangle' },
+  { label: '菱形', value: 'diamond' },
+  { label: '坐标', value: 'pin' },
+  { label: '箭头', value: 'arrow' },
+  { label: '无', value: 'none' },
+]
+
+
+
 export const option = {
   title: {
     show:true,
@@ -36,11 +63,21 @@ export const option = {
       type: 'graph',
       layout: 'none',
       zoom:1,
+      symbol:"circle",
       symbolSize: 50,
+      emphasis:{
+        focus:"adjacency"
+      },
       roam: true,
       label: {
         show: true,
         position:"inside"
+      },
+      lineStyle:{
+        type:"solid",
+        width:1,
+        curveness:0,
+        color:'rgba(0,0,0,1)'
       },
       edgeSymbol: ['circle', 'arrow'],
       edgeSymbolSize: [4, 10],
@@ -51,7 +88,6 @@ export const option = {
       // links: [],
       links: dataJson.series.links,
       categories:dataJson.series.categories,
-      lineStyle: dataJson.series.lineStyle
     }
   ]
 }
