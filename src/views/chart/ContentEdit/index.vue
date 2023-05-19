@@ -81,7 +81,7 @@
     </template>
   </content-box>
 </template>
-
+#region
 <script lang="ts" setup>
 import { onMounted, computed, provide } from 'vue'
 import { chartColors } from '@/settings/chartThemes/index'
@@ -126,6 +126,7 @@ const optionsHandle = (
   targetInstance: CreateComponentType
 ) => {
   // 多选处理
+
   if (chartEditStore.getTargetChart.selectId.length > 1) {
     return allList.filter(i => [MenuEnum.GROUP, MenuEnum.DELETE].includes(i.key as MenuEnum))
   }

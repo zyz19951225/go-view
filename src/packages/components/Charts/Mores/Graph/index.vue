@@ -47,10 +47,14 @@ const option = computed(() => {
 })
 
 const dataSetHandle = (dataset: typeof dataJson) => {
-  if (dataset.series || dataset.title) {
+  if (dataset.series) {
+  //@ts-ignore
     props.chartConfig.option.title= dataset.title
+    //@ts-ignore
     props.chartConfig.option.series[0].data = dataset.series.data
+    //@ts-ignore
     props.chartConfig.option.series[0].links = dataset.series.links
+    //@ts-ignore
     props.chartConfig.option.series[0].categories = dataset.series.categories
     // @ts-ignore
   //  props.chartConfig.option.legend.data = dataset.seriesData.map((i: { name: string }) => i.name)
@@ -62,11 +66,11 @@ const dataSetHandle = (dataset: typeof dataJson) => {
 
 watch(
     () => {
-      console.log( props.chartConfig.option,"0-0-00-0")
       props.chartConfig.option.dataset
     },
   newData => {
     try {
+      //@ts-ignore
       dataSetHandle(newData)
     } catch (error) {
       console.log(error)
