@@ -13,6 +13,16 @@ export const projectListApi = async (data: object) => {
   }
 }
 
+// * 模板项目列表
+export const projectMarketListApi = async (data: object) => {
+  try {
+    const res = await http(RequestHttpEnum.GET)<ProjectItem[]>(`${ModuleTypeEnum.PROJECT}/marketList`, data)
+    return res
+  } catch {
+    httpErrorHandle()
+  }
+}
+
 // * 新增项目
 export const createProjectApi = async (data: object) => {
   try {
@@ -89,7 +99,8 @@ export const uploadFile = async (data: object) => {
       /**
        * 文件地址
        */
-      fileName: string
+      fileName: string,
+      fileurl: string,
     }>(`${ModuleTypeEnum.PROJECT}/upload`, data, ContentTypeEnum.FORM_DATA)
     return res
   } catch {

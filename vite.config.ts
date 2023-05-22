@@ -48,7 +48,8 @@ export default ({ mode }) => defineConfig({
     proxy: {
       [axiosPre]: {
         // @ts-ignore
-        target: loadEnv(mode, process.cwd()).VITE_DEV_PATH,
+        target: "http://localhost:1818",
+        // target: loadEnv(mode, process.cwd()).VITE_DEV_PATH,
         changeOrigin: true,
         ws: true,
         secure: true,
