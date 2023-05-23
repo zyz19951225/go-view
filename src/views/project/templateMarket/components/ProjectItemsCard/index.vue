@@ -31,18 +31,18 @@
           <!-- 工具 -->
           <div class="go-flex-items-center list-footer-ri">
             <n-space>
-              <n-text>
-                <n-badge
-                  class="go-animation-twinkle"
-                  dot
-                  :color="cardData.release ? '#34c749' : '#fcbc40'"
-              ></n-badge>
-                {{
-                  cardData.release
-                    ? $t('project.release')
-                    : $t('project.unreleased')
-                }}
-              </n-text>
+<!--              <n-text>-->
+<!--                <n-badge-->
+<!--                  class="go-animation-twinkle"-->
+<!--                  dot-->
+<!--                  :color="cardData.release ? '#34c749' : '#fcbc40'"-->
+<!--              ></n-badge>-->
+<!--                {{-->
+<!--                  cardData.release-->
+<!--                    ? $t('project.release')-->
+<!--                    : $t('project.unreleased')-->
+<!--                }}-->
+<!--              </n-text>-->
 
               <template v-for="item in fnBtnList" :key="item.key">
                 <template v-if="item.key === 'select'">
@@ -61,17 +61,18 @@
                   </n-dropdown>
                 </template>
 
-                <n-tooltip v-else placement="bottom" trigger="hover">
-                  <template #trigger>
-                    <n-button size="small" @click="handleSelect(item.key)">
-                      <template #icon>
-                        <component :is="item.icon"></component>
-                      </template>
-                    </n-button>
-                  </template>
-                  <component :is="item.label"></component>
-                </n-tooltip>
+<!--                <n-tooltip v-else placement="bottom" trigger="hover">-->
+<!--                  <template #trigger>-->
+<!--                    <n-button size="small" @click="handleSelect(item.key)">-->
+<!--                      <template #icon>-->
+<!--                        <component :is="item.icon"></component>-->
+<!--                      </template>-->
+<!--                    </n-button>-->
+<!--                  </template>-->
+<!--                  <component :is="item.label"></component>-->
+<!--                </n-tooltip>-->
               </template>
+
             </n-space>
           <!-- end -->
           </div>
@@ -128,31 +129,30 @@ const selectOptions = ref([
     label: renderLang('global.r_copy'),
     key: 'copy',
     icon: renderIcon(CopyIcon),
-    disabled: true
   },
-  {
-    label: renderLang('global.r_rename'),
-    key: 'rename',
-    icon: renderIcon(PencilIcon),
-    disabled: true
-  },
+  // {
+  //   label: renderLang('global.r_rename'),
+  //   key: 'rename',
+  //   icon: renderIcon(PencilIcon),
+  //   disabled: true
+  // },
   {
     type: 'divider',
     key: 'd1'
   },
-  {
-    label: props.cardData?.release
-      ? renderLang('global.r_unpublish')
-      : renderLang('global.r_publish'),
-    key: 'release',
-    icon: renderIcon(SendIcon)
-  },
-  {
-    label: renderLang('global.r_download'),
-    key: 'download',
-    icon: renderIcon(DownloadIcon),
-    disabled: true
-  },
+  // {
+  //   label: props.cardData?.release
+  //     ? renderLang('global.r_unpublish')
+  //     : renderLang('global.r_publish'),
+  //   key: 'release',
+  //   icon: renderIcon(SendIcon)
+  // },
+  // {
+  //   label: renderLang('global.r_download'),
+  //   key: 'download',
+  //   icon: renderIcon(DownloadIcon),
+  //   disabled: true
+  // },
   {
     type: 'divider',
     key: 'd2'
@@ -178,6 +178,9 @@ const handleSelect = (key: string) => {
     case 'edit':
       editHandle()
       break
+    case 'copy':
+      copyHandle()
+      break
   }
 }
 
@@ -189,6 +192,11 @@ const previewHandle = () => {
 // 删除处理
 const deleteHandle = () => {
   emit('delete', props.cardData)
+}
+
+// 删除处理
+const copyHandle = () => {
+  emit('copy', props.cardData)
 }
 
 // 编辑处理

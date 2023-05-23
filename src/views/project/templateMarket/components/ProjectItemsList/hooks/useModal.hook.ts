@@ -1,7 +1,10 @@
 import { ref } from 'vue'
 import { ChartEnum } from '@/enums/pageEnum'
-import { fetchPathByName, routerTurnByPath, openNewWindow, previewPath } from '@/utils'
+import {fetchPathByName, routerTurnByPath, openNewWindow, previewPath, goDialog, httpErrorHandle} from '@/utils'
 import { Chartype } from '../../../index.d'
+import {DialogEnum} from "@/enums/pluginEnum";
+import {copyProjectApi, projectMarketListApi,projectListApi} from "@/api/path";
+import {ResultEnum} from "@/enums/httpEnum";
 export const useModalDataInit = () => {
   const modalShow = ref<boolean>(false)
   const modalData = ref<Chartype | null>(null)

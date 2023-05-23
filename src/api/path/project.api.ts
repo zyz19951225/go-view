@@ -23,6 +23,16 @@ export const projectMarketListApi = async (data: object) => {
   }
 }
 
+// * 复制项目
+export const copyProjectApi = async (data: string) => {
+  try {
+    const res = await http(RequestHttpEnum.POST)(`${ModuleTypeEnum.PROJECT}/copy/${data}`, )
+    return res
+  } catch {
+    httpErrorHandle()
+  }
+}
+
 // * 新增项目
 export const createProjectApi = async (data: object) => {
   try {

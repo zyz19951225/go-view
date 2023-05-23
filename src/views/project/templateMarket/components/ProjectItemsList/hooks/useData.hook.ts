@@ -1,9 +1,10 @@
 import { ref, reactive } from 'vue'
-import { goDialog, httpErrorHandle } from '@/utils'
+import {goDialog, httpErrorHandle, goHome, reloadRoutePage, fetchPathByName, routerTurnByPath} from '@/utils'
 import { DialogEnum } from '@/enums/pluginEnum'
-import { projectMarketListApi, deleteProjectApi, changeProjectReleaseApi } from '@/api/path'
+import {projectMarketListApi, deleteProjectApi, changeProjectReleaseApi, copyProjectApi} from '@/api/path'
 import { Chartype, ChartList } from '../../../index.d'
 import { ResultEnum } from '@/enums/httpEnum'
+import {ChartEnum} from "@/enums/pageEnum";
 
 // 数据初始化
 export const useDataListInit = () => {
@@ -85,6 +86,41 @@ export const useDataListInit = () => {
     })
   }
 
+  // 复制处理
+  const copyHandle = (cardData: Chartype) => {
+    goDialog({
+      type: DialogEnum.SUCCESS,
+      promise: true,
+      onPositiveCallback: () =>
+        new Promise(res => {
+          res(
+            copyProjectApi((cardData.id).toString())
+          )
+        }),
+      promiseResCallback: (res: any) => {
+        console.log(res)
+        if (res.code === ResultEnum.SUCCESS) {
+          window['$message'].success(window['$t']('global.r_copy_success'))
+          // goHome()
+          goHome()
+          setTimeout(()=>{
+            reloadRoutePage()
+          })
+          editHandle(res.data.id)
+          return
+        }
+        httpErrorHandle()
+      }
+    })
+  }
+
+  // 编辑新克隆页面
+  const editHandle = (id: String) => {
+    if (!id) return
+    const path = fetchPathByName(ChartEnum.CHART_HOME_NAME, 'href')
+    routerTurnByPath(path, [id], undefined, true)
+  }
+
   // 发布处理
   const releaseHandle = async (cardData: Chartype, index: number) => {
     const { id, release } = cardData
@@ -119,6 +155,7 @@ export const useDataListInit = () => {
     releaseHandle,
     changeSize,
     changePage,
-    deleteHandle
+    deleteHandle,
+    copyHandle
   }
 }
