@@ -49,7 +49,7 @@
                   <n-dropdown
                     trigger="hover"
                     placement="bottom"
-                    :options="selectOptions"
+                    :options="dealSelectOptions(systemStore.getUserInfo.nickName == '管理员')"
                     :show-arrow="true"
                     @select="handleSelect"
                   >
@@ -60,19 +60,19 @@
                     </n-button>
                   </n-dropdown>
                 </template>
-
-<!--                <n-tooltip v-else placement="bottom" trigger="hover">-->
-<!--                  <template #trigger>-->
-<!--                    <n-button size="small" @click="handleSelect(item.key)">-->
-<!--                      <template #icon>-->
-<!--                        <component :is="item.icon"></component>-->
-<!--                      </template>-->
-<!--                    </n-button>-->
-<!--                  </template>-->
-<!--                  <component :is="item.label"></component>-->
-<!--                </n-tooltip>-->
+                <template v-if="item.key != 'select' && systemStore.getUserInfo.nickName == '管理员'">
+                <n-tooltip  placement="bottom" trigger="hover">
+                  <template #trigger>
+                    <n-button size="small" @click="handleSelect(item.key)">
+                      <template #icon>
+                        <component :is="item.icon"></component>
+                      </template>
+                    </n-button>
+                  </template>
+                  <component :is="item.label"></component>
+                </n-tooltip>
+                </template>
               </template>
-
             </n-space>
           <!-- end -->
           </div>
@@ -88,6 +88,7 @@ import { renderIcon, renderLang,  requireErrorImg } from '@/utils'
 import { icon } from '@/plugins'
 import { MacOsControlBtn } from '@/components/Tips/MacOsControlBtn'
 import { Chartype } from '../../index.d'
+import { useSystemStore } from '@/store/modules/systemStore/systemStore'
 import { log } from 'console'
 const {
   EllipsisHorizontalCircleSharpIcon,
@@ -105,6 +106,9 @@ const emit = defineEmits(['preview', 'delete', 'resize', 'edit', 'release'])
 const props = defineProps({
   cardData: Object as PropType<Chartype>
 })
+
+const systemStore = useSystemStore()
+console.log(systemStore.getUserInfo)
 
 const fnBtnList = reactive([
   {
@@ -136,10 +140,6 @@ const selectOptions = ref([
   //   icon: renderIcon(PencilIcon),
   //   disabled: true
   // },
-  {
-    type: 'divider',
-    key: 'd1'
-  },
   // {
   //   label: props.cardData?.release
   //     ? renderLang('global.r_unpublish')
@@ -154,15 +154,22 @@ const selectOptions = ref([
   //   disabled: true
   // },
   {
-    type: 'divider',
-    key: 'd2'
-  },
-  {
     label: renderLang('global.r_delete'),
     key: 'delete',
     icon: renderIcon(TrashIcon)
   }
 ])
+
+//用户为管理员获取模板删除权限
+const dealSelectOptions = (type:boolean)=>{
+  console.log(type)
+  if (type){
+    return selectOptions.value
+  }else {
+    return selectOptions.value.filter(item=>item.key!="delete")
+  }
+}
+
 
 const handleSelect = (key: string) => {
   switch (key) {
