@@ -115,7 +115,7 @@ export const useDataListInit = () => {
   }
 
   // 编辑新克隆页面
-  const editHandle = (id: String) => {
+  const editHandle = (id: number) => {
     if (!id) return
     const path = fetchPathByName(ChartEnum.CHART_HOME_NAME, 'href')
     routerTurnByPath(path, [id], undefined, true)

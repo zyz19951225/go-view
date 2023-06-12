@@ -101,7 +101,7 @@ const {
   SendIcon
 } = icon.ionicons5
 
-const emit = defineEmits(['preview', 'delete', 'resize', 'edit', 'release'])
+const emit = defineEmits(['preview', 'delete', 'resize', 'edit', 'release','copy'])
 
 const props = defineProps({
   cardData: Object as PropType<Chartype>
