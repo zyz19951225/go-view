@@ -131,7 +131,8 @@ const copyPreviewPath = (successText?: string, failureText?: string) => {
     copy()
     window['$message'].success(successText || '复制成功！')
   } else {
-    window['$message'].error(failureText || '复制失败！')
+    console.error("当前浏览器不支持复制操作！！！")
+    window['$message'].error(failureText || '当前浏览器不支持复制操作，请手动复制！')
   }
 }
 
